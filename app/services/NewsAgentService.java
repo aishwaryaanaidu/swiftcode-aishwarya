@@ -5,13 +5,13 @@ import data.NewsAgentResponse;
 import play.libs.ws.WS;
 import play.libs.ws.WSRequest;
 import play.libs.ws.WSResponse;
-
+import java.util.*;
 import java.util.UUID;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.ExecutionException;
 
 public class NewsAgentService {
-    public NewsAgentResponse getNewsAgentResponse(String message,UUID sessionId)
+    public NewsAgentResponse getNewsAgentResponse(String query,UUID sessionId)
     {
         NewsAgentResponse newsAgentResponse = new NewsAgentResponse();
         try{
@@ -28,6 +28,7 @@ public class NewsAgentService {
         catch(Exception e){
 
         }
+        return newsAgentResponse;
     }
 
 }
