@@ -3,33 +3,34 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
     <link rel="stylesheet" href="/assets/stylesheets/chat.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 
-<body ng-app="chatApp">
-
-    <md-card>
-        <md-content id="message-pane">
-
+<body ng-app="chatApp" ng-controller="chatController" layout="row" layout-align="center stretch">
+    <md-card layout="column" flex="none" style="width: 800px">
+        <md-content id="message-pane" layout="column" flex="90">
         </md-content>
-        <md-card id="form-card">
-            <form>
+        <md-card id="form-card" class="md-whiteframe-20dp" layout=" row " flex="10 ">
+            <form layout="row " flex="90 ">
+                <md-input-container flex>
+                    <label>Message</label>
+                    <input ng-model="userMessage ">
+                </md-input-container>
             </form>
-            <md-button></md-button>
+            <md-button class="md-fab md-accent" flex="none">
+                <i class="material-icons">send</i>
             </md-button>
         </md-card>
     </md-card>
-
-
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
-    <script src="/assets/javascripts/chat.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js "></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js "></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js "></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js "></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js "></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js "></script>
+    <script src="/assets/javascripts/chat.js "></script>
 </body>
 
 </html>
