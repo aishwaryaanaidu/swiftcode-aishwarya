@@ -10,23 +10,26 @@
 
 <body ng-app="chatApp" ng-controller="chatController" layout="row" layout-align="center stretch">
     <md-card layout="column" flex="none" style="width: 800px">
-        <md-content id="message-pane" layout="column" flex="90">
+        <md-content id="message-pane" flex="90">
             <div ng-repeat="msg in messages" layout="column" layout-align="{{msg.sender == 'BOT' ?'start start':'start end'}}">
                 <md-card class="message-card" ng-style="msg.sender=='BOT' ? { 'background-color':
                     '#a1f76c'}: { 'background-color': '#0adbd4'} ">
                     <span>{{msg.text}}</span>
+                    <span ng-bind-html="trust(msg.feedResponse.description)">{{msg.feedResponse.description}}</span>
+                    <span class="message-time">{{msg.time}}</span>
                 </md-card>
             </div>
         </md-content>
         <md-card id="form-card " class="md-whiteframe-20dp " layout=" row
                     " flex="10 ">
-            <form layout="row " flex="90 ">
+            <form layout="row " flex ng-submit="sendMessage()">
                 <md-input-container flex>
                     <label>Message</label>
                     <input ng-model="userMessage ">
                 </md-input-container>
             </form>
-            <md-button class="md-fab md-accent " flex="none ">
+            <md-button class="md-fab md-accent " flex="none " layout="row" layout-align="center center"
+                ng-click="sendMessage()">
                 <i class="material-icons ">send</i>
             </md-button>
         </md-card>

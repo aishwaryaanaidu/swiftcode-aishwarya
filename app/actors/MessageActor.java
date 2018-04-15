@@ -16,17 +16,18 @@ import static data.Message.Sender.BOT;
 import static data.Message.Sender.USER;
 
 public class MessageActor extends UntypedActor {
+    //self ref the actor
+    //PROPS
+    //obj of FeedService
+    //obj of NewsAgentService
+    //define another actor ref
+    private final ActorRef out; //rhs
+    public ObjectMapper mapper = new ObjectMapper();
 
-    //self reference the Actor
-    //props
-    //object of feed service
-    //object of NewsAgentService
-    //define another actor Reference
     public MessageActor(ActorRef out) {
+
         this.out = out;
     }
-
-    private final ActorRef out;
 
     public static Props props(ActorRef out) {
         return Props.create(MessageActor.class, out);
@@ -35,25 +36,24 @@ public class MessageActor extends UntypedActor {
     private FeedService feedService = new FeedService();
     private NewsAgentService newsAgentService = new NewsAgentService();
     public FeedResponse feedResponse = new FeedResponse();
-    public ObjectMapper mapper=new ObjectMapper();
-    NewsAgentResponse newsAgentResponse=new NewsAgentResponse();
+    public NewsAgentResponse newsAgentResponse = new NewsAgentResponse();
+
     @Override
     public void onReceive(Object message) throws Throwable {
-        //send back the response
+        //Send back the response
+        if ((message instanceof String)) {
+            Message messageObject = new Message();
+            messageObject.text = message.toString();
+            messageObject.sender = USER;
+            out.tell(mapper.writeValueAsString(messageObject), self());
+            String query = newsAgentService.getNewsAgentResponse("Find " + message, UUID.randomUUID()).query;
+            feedResponse = feedService.getFeedByQuery(query);
+            messageObject.text = (feedResponse.title == null) ? "No results found" : "Showing results for: " + query;
+            messageObject.feedResponse = feedResponse;
 
-        if (message instanceof String) {
-            Message messageobject = new Message();
-            messageobject.text=message.toString();
-            messageobject.sender=USER;
-            out.tell(mapper.writeValueAsString(messageobject), self());
-            newsAgentResponse=newsAgentService.getNewsAgentResponse(messageobject.text,UUID.randomUUID());
-            feedResponse=feedService.getFeedByQuery(newsAgentResponse.query);
-            messageobject.text = (feedResponse.title == null) ? "No results found" : "Showing results for: " + newsAgentResponse.query;
-            messageobject.feedResponse=feedResponse;
-
-            messageobject.sender =BOT;
-            out.tell(mapper.writeValueAsString(messageobject), self());
-
+            messageObject.sender = BOT;
+            out.tell(mapper.writeValueAsString(messageObject), self());
         }
+
     }
 }
